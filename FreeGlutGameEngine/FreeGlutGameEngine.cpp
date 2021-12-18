@@ -7,9 +7,6 @@
 
 int main(int argc, char* argv[]) {
 
-
-
-
 	glutInit(&argc, argv);
 	char title[] = "Nice title";
 	Engine engine(title, 0.5f, 0.5f, 0.5f);
