@@ -1,6 +1,6 @@
 #pragma once
 #include <gl/freeglut.h>
-#include "Square.h"
+#include "Cube.h"
 class Engine
 {
 private:
@@ -11,7 +11,7 @@ private:
 	static void onTimer(int val);
 	static void mouse(int button, int state, int x, int y);
 	static void keyboard(unsigned char key, int x, int y);
-	static Square square;
+	static Cube square;
 public:
 	Engine(char* title, float r, float g, float b);
 	void setModes(unsigned int e);

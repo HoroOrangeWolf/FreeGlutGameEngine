@@ -109,7 +109,7 @@ unsigned int Engine::height = 600;
 unsigned int Engine::modes = GLUT_RGB;
 unsigned int Engine::fps = 60;
 
-Square Engine::square = Square(-0.5f, -0.5f, -0.5f, 1.f);
+Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f);
 
 char* Engine::title = NULL;
 
