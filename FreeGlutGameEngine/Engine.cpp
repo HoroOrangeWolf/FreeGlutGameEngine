@@ -9,7 +9,9 @@ void Engine::onDraw()
 	glClearColor(r, g, b, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	square.draw();
+	//square.draw();
+	//sq1.draw();
+	tr1.draw();
 	glutSwapBuffers();
 }
 
@@ -56,11 +58,10 @@ void Engine::setUp()
 
 	glutCreateWindow(title);
 
-
-
 	//glViewport(0, 0, width, height);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_LIGHTING);
+
 	glViewport(0, 0, width, height);
 
 	glClearColor(0.1, 0.5, 0.5, 1.0);
@@ -110,6 +111,8 @@ unsigned int Engine::modes = GLUT_RGB;
 unsigned int Engine::fps = 60;
 
 Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f);
+Square Engine::sq1 = Square(0.f, 0.f, 0.f, 1.f);
+Triangle Engine::tr1 = Triangle(0.f, 0.f, 0.f, 1.f, 1.f);
 
 char* Engine::title = NULL;
 
