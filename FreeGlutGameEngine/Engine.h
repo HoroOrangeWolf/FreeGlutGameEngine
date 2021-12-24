@@ -3,6 +3,7 @@
 #include "Cube.h"
 #include "Square.h"
 #include "Triangle.h"
+#include "RandomLetter.h"
 
 class Engine
 {
@@ -12,11 +13,12 @@ private:
 	static unsigned int modes, width, height, fps;
 	static void onDraw();
 	static void onTimer(int val);
-	static void mouse(int button, int state, int x, int y);
+	static void mouse(int x, int y);
 	static void keyboard(unsigned char key, int x, int y);
 	static Cube square;
 	static Square sq1;
 	static Triangle tr1;
+	static RandomLetter random;
 
 public:
 	Engine(char* title, float r, float g, float b);

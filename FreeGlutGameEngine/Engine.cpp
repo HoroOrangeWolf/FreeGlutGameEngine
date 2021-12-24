@@ -11,7 +11,7 @@ void Engine::onDraw()
 
 	//square.draw();
 	//sq1.draw();
-	tr1.draw();
+	//sq1.draw();
 	glutSwapBuffers();
 }
 
@@ -22,7 +22,7 @@ void Engine::onTimer(int val)
 	glutTimerFunc(1000 / fps, &Engine::onTimer, 0);
 }
 
-void Engine::mouse(int button, int state, int x, int y)
+void Engine::mouse(int x, int y)
 {
 	std::cout << "Mouse \n";
 }
@@ -30,9 +30,38 @@ void Engine::mouse(int button, int state, int x, int y)
 void Engine::keyboard(unsigned char key, int x, int y)
 {
 	std::cout << "keyboard \n";
-	glRotatef(1.f, 0, 0, 1);
-	glRotatef(1.f, 0, 1, 0);
-	glRotatef(1.f, 1, 0, 0);
+
+	std::cout << "KEY: " << key << '\n';
+
+	switch (key)
+	{
+	case 'a':
+	{
+		glTranslatef(0.1f, 0.f, 0.f);
+	}
+	break;
+	case 'd':
+	{
+		glTranslatef(-0.1f, 0.f, 0.f);
+	}
+	break;
+	case 'w':
+	{
+		glTranslatef(0.f, 0.f, 0.1f);
+	}
+	break;
+	case 's':
+	{
+		glTranslatef(0.f, 0.f, -0.1f);
+	}
+	break;
+	default:
+		break;
+	}
+
+	//glRotatef(1.f, 0, 0, 1);
+	//glRotatef(1.f, 0, 1, 0);
+	//glRotatef(1.f, 1, 0, 0);
 }
 
 Engine::Engine(char* title, float r, float g, float b)
@@ -73,15 +102,15 @@ void Engine::setUp()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0, 0, -3);
-	glRotatef(20, 1, 0, 0);
-	glRotatef(50, 0, 1, 0);
+	//glRotatef(20, 1, 0, 0);
+	//glRotatef(50, 0, 1, 0);
 
 	glutDisplayFunc(&Engine::onDraw);
 
 	glutTimerFunc(1000 / fps, onTimer, 0);
 
 	glutKeyboardFunc(&Engine::keyboard);
-	glutMouseFunc(&Engine::mouse);
+	glutPassiveMotionFunc(&Engine::mouse);
 
 }
 
@@ -113,6 +142,7 @@ unsigned int Engine::fps = 60;
 Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f);
 Square Engine::sq1 = Square(0.f, 0.f, 0.f, 1.f);
 Triangle Engine::tr1 = Triangle(0.f, 0.f, 0.f, 1.f, 1.f);
+RandomLetter Engine::random = RandomLetter(-2.f, 2.f);
 
 char* Engine::title = NULL;
 
