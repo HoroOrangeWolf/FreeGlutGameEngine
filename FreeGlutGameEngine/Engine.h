@@ -4,6 +4,7 @@
 #include "Square.h"
 #include "Triangle.h"
 #include "RandomLetter.h"
+#include "Player.h"
 
 class Engine
 {
@@ -19,6 +20,7 @@ private:
 	static Square sq1;
 	static Triangle tr1;
 	static RandomLetter random;
+	static Player player;
 
 public:
 	Engine(char* title, float r, float g, float b);

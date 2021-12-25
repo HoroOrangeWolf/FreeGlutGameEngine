@@ -9,8 +9,8 @@ void Engine::onDraw()
 	glClearColor(r, g, b, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//square.draw();
-	//sq1.draw();
+	square.draw();
+	sq1.draw();
 	//sq1.draw();
 	glutSwapBuffers();
 }
@@ -24,41 +24,13 @@ void Engine::onTimer(int val)
 
 void Engine::mouse(int x, int y)
 {
-	std::cout << "Mouse \n";
+	player.onMouseMove(x, y);
 }
 
 void Engine::keyboard(unsigned char key, int x, int y)
 {
-	std::cout << "keyboard \n";
-
-	std::cout << "KEY: " << key << '\n';
-
-	switch (key)
-	{
-	case 'a':
-	{
-		glTranslatef(0.1f, 0.f, 0.f);
-	}
-	break;
-	case 'd':
-	{
-		glTranslatef(-0.1f, 0.f, 0.f);
-	}
-	break;
-	case 'w':
-	{
-		glTranslatef(0.f, 0.f, 0.1f);
-	}
-	break;
-	case 's':
-	{
-		glTranslatef(0.f, 0.f, -0.1f);
-	}
-	break;
-	default:
-		break;
-	}
-
+	player.onKeyboardClick(key);
+	//glRotatef(1.f, 0, 0, 1);
 	//glRotatef(1.f, 0, 0, 1);
 	//glRotatef(1.f, 0, 1, 0);
 	//glRotatef(1.f, 1, 0, 0);
@@ -102,6 +74,7 @@ void Engine::setUp()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0, 0, -3);
+	player.setStartCords(0, 0, -3);
 	//glRotatef(20, 1, 0, 0);
 	//glRotatef(50, 0, 1, 0);
 
@@ -140,9 +113,10 @@ unsigned int Engine::modes = GLUT_RGB;
 unsigned int Engine::fps = 60;
 
 Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f);
-Square Engine::sq1 = Square(0.f, 0.f, 0.f, 1.f);
+Square Engine::sq1 = Square(-2.5f, 0.f, 0.f, 1.f);
 Triangle Engine::tr1 = Triangle(0.f, 0.f, 0.f, 1.f, 1.f);
 RandomLetter Engine::random = RandomLetter(-2.f, 2.f);
+Player Engine::player = Player();
 
 char* Engine::title = NULL;
 

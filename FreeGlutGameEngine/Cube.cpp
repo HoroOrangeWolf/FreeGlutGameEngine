@@ -33,31 +33,6 @@ Cube::Cube(float x, float y, float z, float width)
 	20, 21, 22,    // strona 6
 	22, 21, 23,
 	};
-	
-	/*
-	
-	this->cube_ind = new unsigned char[36]{
-		//str1
-		0, 1, 2,
-		2, 1, 3,
-		//str2
-		4, 5, 6,
-		6, 5, 7,
-		//str3
-		8, 9 , 10,
-		10, 9, 11,
-		//str4
-		12, 13, 14,
-		14, 13, 15,
-		//str5
-		16, 17, 18,
-		18, 17, 19,
-		//str6
-		20, 21, 22,
-		22, 21, 23
-	};
-	*/
-	
 
 	this->normalization = new float[72]{
 	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,
@@ -70,43 +45,25 @@ Cube::Cube(float x, float y, float z, float width)
 	};
 
 	this->colors = new float[72]{
-		//sciana1
-		1.0f, 0.7f, 0.7f,
-		.2f, 0.1f, 0.7f,
-		0.5f, 0.1f, 0.3f,
-		.0f, .5f, 1.f,
-		//sciana2
-		
-		1.0f, 0.7f, 0.7f,
-		1.0f, 0.7f, 0.7f,
-		1.0f, 0.7f, 0.7f,
-		1.0f, 0.7f, 0.7f,
-		//sciana3
-		0.5f, 0.1f, 0.3f,
-		0.5f, 0.1f, 0.3f,
-		0.5f, 0.1f, 0.3f,
-		0.5f, 0.1f, 0.3f,
-		//sciana4
-		.2f, 0.4f, 0.7f,
-		.2f, 0.4f, 0.7f,
-		.2f, 0.4f, 0.7f,
-		.2f, 0.4f, 0.7f,
-		//sciana5
-		1.0f, 1.f, 0.1f,
-		1.0f, 1.f, 0.1f,
-		1.0f, 1.f, 0.1f,
-		1.0f, 1.f, 0.1f,
-		//sciana6
-		0.1f, 0.9f, 0.3f,
-		0.1f, 0.9f, 0.3f,
-		0.1f, 0.9f, 0.3f,
-		0.1f, 0.9f, 0.3f,
-		
+		0.02f, 0.11f, 0.55f, 0.97f, 0.43f, 0.15f, 0.53f, 0.58f, 0.20f, 0.60f, 0.10f, 0.97f,
+
+		0.73f, 0.51f, 0.88f, 0.55f, 0.60f, 0.12f, 0.91f, 0.32f, 0.82f, 0.36f, 0.94f, 0.90f,
+
+		0.49f, 0.74f, 0.45f, 0.97f, 0.18f, 0.97f, 0.29f, 0.11f, 0.50f, 0.53f, 0.37f, 0.97f,
+
+		0.89f, 0.47f, 0.50f, 0.84f, 0.59f, 0.98f, 0.83f, 0.76f, 0.96f, 0.62f, 0.44f, 0.93f,
+
+		0.13f, 0.43f, 0.20f, 0.94f, 0.61f, 0.51f, 0.16f, 0.52f, 0.22f, 0.12f, 0.36f, 0.64f,
+
+		0.99f, 0.62f, 0.30f, 0.01f, 0.52f, 0.62f, 0.89f, 0.79f, 0.63f, 0.10f, 0.64f, 0.74f,
 	};
+
 }
 
 void Cube::draw()
 {
+
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex);
 
@@ -121,6 +78,125 @@ void Cube::draw()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void Cube::moveBy(float x, float y, float z)
+{
+	for (int i = 0; i < 72; i += 3) {
+		vertex[i] += x;
+		vertex[i+1] += y;
+		vertex[i+2] += z;
+	}
+		
+}
+
+void Cube::rotate(int x, int y, int z, float degree)
+{
+	degree = degree * angle;
+
+	if (x == 1) {
+		glm::mat4 mX(glm::f32(1.f), glm::f32(0.f), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(cos(degree)), glm::f32(-sin(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(sin(degree)), glm::f32(cos(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(0.f), glm::f32(1.f)
+		);
+
+		for (int i = 0; i < 72; i += 12) {
+			glm::mat4 toRotate(
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
+				glm::f32(vertex[i + 2]), glm::f32(vertex[i + 5]), glm::f32(vertex[i + 8]), glm::f32(vertex[i + 11]),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
+			);
+
+			glm::mat4 result = toRotate * mX;
+
+			vertex[i] = result[0][0];
+			vertex[i+1] = result[1][0];
+			vertex[i+2] = result[2][0];
+
+			vertex[i+3] = result[0][1];
+			vertex[i+4] = result[1][1];
+			vertex[i+5] = result[2][1];
+
+			vertex[i+6] = result[0][2];
+			vertex[i+7] = result[1][2];
+			vertex[i+8] = result[2][2];
+
+			vertex[i+9] = result[0][3];
+			vertex[i+10] = result[1][3];
+			vertex[i+11] = result[2][3];
+		}
+
+	}
+	else if (y == 1) {
+		glm::mat4 mX(glm::f32(cos(degree)), glm::f32(0.f), glm::f32(-sin(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(1.f), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(sin(degree)), glm::f32(0.f), glm::f32(cos(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(0.f), glm::f32(1.f)
+		);
+
+		for (int i = 0; i < 72; i += 12) {
+			glm::mat4 toRotate(
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
+				glm::f32(vertex[i + 2]), glm::f32(vertex[i + 5]), glm::f32(vertex[i + 8]), glm::f32(vertex[i + 11]),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
+			);
+
+			glm::mat4 result = toRotate * mX;
+
+			vertex[i] = result[0][0];
+			vertex[i + 1] = result[1][0];
+			vertex[i + 2] = result[2][0];
+
+			vertex[i + 3] = result[0][1];
+			vertex[i + 4] = result[1][1];
+			vertex[i + 5] = result[2][1];
+
+			vertex[i + 6] = result[0][2];
+			vertex[i + 7] = result[1][2];
+			vertex[i + 8] = result[2][2];
+
+			vertex[i + 9] = result[0][3];
+			vertex[i + 10] = result[1][3];
+			vertex[i + 11] = result[2][3];
+		}
+	}
+	else if (z == 1) {
+		glm::mat4 mX(glm::f32(cos(degree)), glm::f32(-sin(degree)), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(sin(degree)), glm::f32(cos(degree)), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(1.f), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(0.f), glm::f32(1.f)
+		);
+
+		for (int i = 0; i < 72; i += 12) {
+			glm::mat4 toRotate(
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
+				glm::f32(vertex[i + 2]), glm::f32(vertex[i + 5]), glm::f32(vertex[i + 8]), glm::f32(vertex[i + 11]),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
+			);
+
+			glm::mat4 result = toRotate * mX;
+
+			vertex[i] = result[0][0];
+			vertex[i + 1] = result[1][0];
+			vertex[i + 2] = result[2][0];
+
+			vertex[i + 3] = result[0][1];
+			vertex[i + 4] = result[1][1];
+			vertex[i + 5] = result[2][1];
+
+			vertex[i + 6] = result[0][2];
+			vertex[i + 7] = result[1][2];
+			vertex[i + 8] = result[2][2];
+
+			vertex[i + 9] = result[0][3];
+			vertex[i + 10] = result[1][3];
+			vertex[i + 11] = result[2][3];
+		}
+	}
 }
 
 Cube::~Cube()
