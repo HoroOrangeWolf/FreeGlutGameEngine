@@ -1,5 +1,9 @@
 #pragma once
 #include "Observer.h"
+
+#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
+
 class Player :
     public Observer
 {

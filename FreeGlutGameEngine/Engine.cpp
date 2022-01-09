@@ -24,7 +24,7 @@ void Engine::onTimer(int val)
 
 void Engine::mouse(int x, int y)
 {
-	player.onMouseMove(x, y);
+	//player.onMouseMove(x, y);
 }
 
 void Engine::keyboard(unsigned char key, int x, int y)

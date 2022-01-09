@@ -19,3 +19,4 @@ public:
     Square(float x, float y, float z, float width);
     void draw() override;
 };
+
