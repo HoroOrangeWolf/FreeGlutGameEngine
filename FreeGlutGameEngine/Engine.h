@@ -15,12 +15,14 @@ private:
 	static void onDraw();
 	static void onTimer(int val);
 	static void mouse(int x, int y);
+	static void onIdle();
 	static void keyboard(unsigned char key, int x, int y);
 	static Cube square;
 	static Square sq1;
 	static Triangle tr1;
 	static RandomLetter random;
 	static Player player;
+	static int shading;
 
 public:
 	Engine(char* title, float r, float g, float b);
@@ -29,5 +31,6 @@ public:
 	void run();
 	void setSize(unsigned int width,unsigned int height);
 	void setFps(unsigned int fps);
+	void setShading(int shade);
 };
 

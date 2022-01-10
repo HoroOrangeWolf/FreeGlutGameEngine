@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
 	engine.setFps(60);
 	engine.setModes(GLUT_RGB | GLUT_DOUBLE);
 	engine.setSize(800, 600);
+	engine.setShading(GL_SMOOTH);
 	engine.setUp();
 	engine.run();
 

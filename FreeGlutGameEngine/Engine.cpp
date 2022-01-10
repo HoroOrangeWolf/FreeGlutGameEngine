@@ -3,11 +3,34 @@
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
 
+GLfloat lightAmb[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+GLfloat lightDif[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+GLfloat lightSpc[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat lightPos[] = { 50.f, 0.f, 0.0f, 1.0f };
+
 void Engine::onDraw()
 {
 
-	glClearColor(r, g, b, 1.0);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Switch to model-view matrix:
+	glMatrixMode(GL_MODELVIEW);
+	glClearColor(r, g, b, 1.0);
+
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightAmb);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif);
+
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+
+	glEnable(GL_LIGHT0);
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, lightSpc);
+	glMateriali(GL_FRONT, GL_SHININESS, 64);
+
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
 	square.draw();
 	sq1.draw();
@@ -29,7 +52,19 @@ void Engine::mouse(int x, int y)
 
 void Engine::keyboard(unsigned char key, int x, int y)
 {
-	player.onKeyboardClick(key);
+	//player.onKeyboardClick(key);
+	std::cout << key;
+	switch (key) {
+	case '1':
+		square.rotate(1, 0, 0, 1.f);
+		break;
+	case '2':
+		square.rotate(0, 1, 0, 1.f);
+		break;
+	case '3':
+		square.rotate(0, 0, 1, 1.f);
+		break;
+	}
 	//glRotatef(1.f, 0, 0, 1);
 	//glRotatef(1.f, 0, 0, 1);
 	//glRotatef(1.f, 0, 1, 0);
@@ -46,6 +81,11 @@ Engine::Engine(char* title, float r, float g, float b)
 
 }
 
+void Engine::setShading(int shade)
+{
+	shading = shade;
+}
+
 void Engine::setModes(unsigned int e)
 {
 	Engine::modes = e;
@@ -54,14 +94,37 @@ void Engine::setModes(unsigned int e)
 void Engine::setUp()
 {
 
+	square.rotate(1, 0, 0, 50.f);
+	square.rotate(0, 1, 0, 30.f);
+	square.rotate(0, 0, 1, 70.f);
 	glutInitDisplayMode(modes);
 	glutInitWindowSize(width, height);
 
 	glutCreateWindow(title);
 
-	//glViewport(0, 0, width, height);
-	//glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+	// Lighting ON:
+	glEnable(GL_LIGHTING);
+	glEnable(GL_NORMALIZE);
+
+	
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightAmb);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif);
+
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+
+
+	glEnable(GL_LIGHT0);
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, lightSpc);
+	glMateriali(GL_FRONT, GL_SHININESS, 64);
+	
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	
+	glShadeModel(shading);
 
 	glViewport(0, 0, width, height);
 
@@ -75,15 +138,15 @@ void Engine::setUp()
 	glLoadIdentity();
 	glTranslatef(0, 0, -3);
 	player.setStartCords(0, 0, -3);
-	//glRotatef(20, 1, 0, 0);
-	//glRotatef(50, 0, 1, 0);
+
+	glutKeyboardFunc(&Engine::keyboard);
+	glutPassiveMotionFunc(&Engine::mouse);
 
 	glutDisplayFunc(&Engine::onDraw);
 
 	glutTimerFunc(1000 / fps, onTimer, 0);
 
-	glutKeyboardFunc(&Engine::keyboard);
-	glutPassiveMotionFunc(&Engine::mouse);
+	
 
 }
 
@@ -117,6 +180,8 @@ Square Engine::sq1 = Square(-2.5f, 0.f, 0.f, 1.f);
 Triangle Engine::tr1 = Triangle(0.f, 0.f, 0.f, 1.f, 1.f);
 RandomLetter Engine::random = RandomLetter(-2.f, 2.f);
 Player Engine::player = Player();
+
+int Engine::shading = GL_SMOOTH;
 
 char* Engine::title = NULL;
 
