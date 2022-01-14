@@ -5,8 +5,8 @@
 
 GLfloat lightAmb[] = { 0.2f, 0.2f, 0.2f, 1.0f };
 GLfloat lightDif[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-GLfloat lightSpc[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat lightPos[] = { 50.f, 0.f, 0.0f, 1.0f };
+GLfloat lightSpc[] = { 0.2f, 0.2f, 0.2f, 0.2f };
+GLfloat lightPos[] = { 0.f, 0.f, -5.0f, 1.0f };
 
 void Engine::onDraw()
 {
@@ -23,14 +23,12 @@ void Engine::onDraw()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
 
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-
+	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
 	glMaterialfv(GL_FRONT, GL_SPECULAR, lightSpc);
-	glMateriali(GL_FRONT, GL_SHININESS, 64);
+	glMateriali(GL_FRONT, GL_SHININESS, 8);
 
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
 	square.draw();
 	sq1.draw();
@@ -57,12 +55,22 @@ void Engine::keyboard(unsigned char key, int x, int y)
 	switch (key) {
 	case '1':
 		square.rotate(1, 0, 0, 1.f);
+		lightPos[0] -= 0.1f;
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
 		break;
 	case '2':
 		square.rotate(0, 1, 0, 1.f);
+		//lightPos[0] += 0.1f;
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
 		break;
 	case '3':
 		square.rotate(0, 0, 1, 1.f);
+		break;
+	case '4':
+		lightPos[0] -= 0.1f;
+		break;
+	case '5':
+		lightPos[0] += 0.1f;
 		break;
 	}
 	//glRotatef(1.f, 0, 0, 1);
@@ -94,9 +102,9 @@ void Engine::setModes(unsigned int e)
 void Engine::setUp()
 {
 
-	square.rotate(1, 0, 0, 50.f);
-	square.rotate(0, 1, 0, 30.f);
-	square.rotate(0, 0, 1, 70.f);
+	//square.rotate(1, 0, 0, 50.f);
+	//square.rotate(0, 1, 0, 30.f);
+	//square.rotate(0, 0, 1, 70.f);
 	glutInitDisplayMode(modes);
 	glutInitWindowSize(width, height);
 
@@ -105,7 +113,7 @@ void Engine::setUp()
 	glEnable(GL_DEPTH_TEST);
 	// Lighting ON:
 	glEnable(GL_LIGHTING);
-	glEnable(GL_NORMALIZE);
+
 
 	
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightAmb);

@@ -1,4 +1,12 @@
 #include "Cube.h"
+#include <iostream>
+
+void cross_product(float *p1, float *p2, float *p3) {
+
+	p3[0] = p1[1] * p2[2] - p1[2] * p2[1];
+	p3[1] = -(p1[0] * p2[2] - p1[2] * p2[0]);
+    p3[2] = p1[0] * p2[1] - p1[1] * p2[0];
+}
 
 Cube::Cube(float x, float y, float z, float width)
 {
@@ -35,14 +43,27 @@ Cube::Cube(float x, float y, float z, float width)
 	};
 
 	this->normalization = new float[72]{
-	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,
-	 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f,-1.0f,
-	 0.0f, 1.0f, 0.0f,	 0.0f, 1.0f, 0.0f,	 0.0f, 1.0f, 0.0f,	 0.0f, 1.0f, 0.0f,
-	 0.0f,-1.0f, 0.0f,	 0.0f,-1.0f, 0.0f,	 0.0f,-1.0f, 0.0f,	 0.0f,-1.0f, 0.0f,
 	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,
-	-1.0f, 0.0f, 0.0f,	-1.0f, 0.0f, 0.0f,	-1.0f, 0.0f, 0.0f,	-1.0f, 0.0f, 0.0f
-		
+	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,
+	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,
+	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,
+	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,
+	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,	 1.0f, 0.0f, 0.0f,
+	
 	};
+
+	for (int i = 0; i < 72; i += 12) {
+		float b[] = { vertex[i + 6] - vertex[i + 3], vertex[i + 7] - vertex[i + 4], vertex[i + 8] - vertex[i + 5] };
+		float a[] = { vertex[i] - vertex[i + 3], vertex[i + 1] - vertex[i + 4], vertex[i + 2] - vertex[i + 5] };
+		float p[]{ 0.f, 0.f, 0.f };
+		cross_product(a, b, p);
+
+		for (int u = i; u < i + 12; u += 3) {
+			normalization[u] = p[0];
+			normalization[u + 1] = p[1];
+			normalization[u + 2] = p[2];
+		}
+	}
 
 	this->colors = new float[72]{
 		0.02f, 0.11f, 0.55f, 0.97f, 0.43f, 0.15f, 0.53f, 0.58f, 0.20f, 0.60f, 0.10f, 0.97f,
@@ -53,7 +74,7 @@ Cube::Cube(float x, float y, float z, float width)
 
 		0.89f, 0.47f, 0.50f, 0.84f, 0.59f, 0.98f, 0.83f, 0.76f, 0.96f, 0.62f, 0.44f, 0.93f,
 
-		0.13f, 0.43f, 0.20f, 0.94f, 0.61f, 0.51f, 0.16f, 0.52f, 0.22f, 0.12f, 0.36f, 0.64f,
+		0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 1.0f,
 
 		0.99f, 0.62f, 0.30f, 0.01f, 0.52f, 0.62f, 0.89f, 0.79f, 0.63f, 0.10f, 0.64f, 0.74f,
 	};
@@ -86,6 +107,19 @@ void Cube::moveBy(float x, float y, float z)
 		vertex[i] += x;
 		vertex[i+1] += y;
 		vertex[i+2] += z;
+	}
+
+	for (int i = 0; i < 72; i += 12) {
+		float b[] = { vertex[i + 6] - vertex[i + 3], vertex[i + 7] - vertex[i + 4], vertex[i + 8] - vertex[i + 5] };
+		float a[] = { vertex[i] - vertex[i + 3], vertex[i + 1] - vertex[i + 4], vertex[i + 2] - vertex[i + 5] };
+		float p[]{ 0.f, 0.f, 0.f };
+		cross_product(a, b, p);
+
+		for (int u = i; u < i + 12; u += 3) {
+			normalization[u] = p[0];
+			normalization[u + 1] = p[1];
+			normalization[u + 2] = p[2];
+		}
 	}
 		
 }
@@ -197,6 +231,27 @@ void Cube::rotate(int x, int y, int z, float degree)
 			vertex[i + 11] = result[2][3];
 		}
 	}
+
+	for (int i = 0; i < 72; i += 12) {
+		float b[] = { vertex[i + 6] - vertex[i + 3], vertex[i + 7] - vertex[i + 4], vertex[i + 8] - vertex[i + 5] };
+		float a[] = { vertex[i] - vertex[i + 3], vertex[i + 1] - vertex[i + 4], vertex[i + 2] - vertex[i + 5] };
+		float p[]{ 0.f, 0.f, 0.f };
+		cross_product(a, b, p);
+
+		for (int u = i; u < i + 12; u += 3) {
+			normalization[u] = p[0];
+			normalization[u + 1] = p[1];
+			normalization[u + 2] = p[2];
+		}
+	}
+	
+	for (int i = 0; i < 72; i += 12) {
+		for (int q = i; q < i + 12; q += 3) {
+			std::cout << normalization[q] << ' ' << normalization[q + 1] << ' ' << normalization[q + 3] << " | ";
+		}
+		std::cout << '\n';
+	}
+	
 }
 
 Cube::~Cube()
