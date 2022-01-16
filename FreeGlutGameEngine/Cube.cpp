@@ -108,20 +108,6 @@ void Cube::moveBy(float x, float y, float z)
 		vertex[i+1] += y;
 		vertex[i+2] += z;
 	}
-
-	for (int i = 0; i < 72; i += 12) {
-		float b[] = { vertex[i + 6] - vertex[i + 3], vertex[i + 7] - vertex[i + 4], vertex[i + 8] - vertex[i + 5] };
-		float a[] = { vertex[i] - vertex[i + 3], vertex[i + 1] - vertex[i + 4], vertex[i + 2] - vertex[i + 5] };
-		float p[]{ 0.f, 0.f, 0.f };
-		cross_product(a, b, p);
-
-		for (int u = i; u < i + 12; u += 3) {
-			normalization[u] = p[0];
-			normalization[u + 1] = p[1];
-			normalization[u + 2] = p[2];
-		}
-	}
-		
 }
 
 void Cube::rotate(int x, int y, int z, float degree)
