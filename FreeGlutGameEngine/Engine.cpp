@@ -217,6 +217,12 @@ void Engine::onIdle()
 	static int last_time;
 	static GLfloat number = 0.f;
 	static GLfloat nums = 4.f;
+
+	static float moveY = 0.f;
+	static float moveBy = 10.f;
+
+	static int count = 0;
+
 	int now_time = glutGet(GLUT_ELAPSED_TIME);
 
 	if (last_time > 0) {
@@ -239,6 +245,17 @@ void Engine::onIdle()
 		{
 			nums = 4.f;
 		}
+		moveY += moveBy * times;
+		if (moveY >= 4.f) {
+			moveBy = -10.f;
+		}
+		else if (moveY <= -4.f) {
+			moveBy = 10.f;
+		}
+
+		sq1.moveBy(0.f, moveBy * times, 0.f);
+		tr1.rotate(1, 0, 0, 20.f * times);
+		
 	}
 	last_time = now_time;
 	glutPostRedisplay();

@@ -26,8 +26,8 @@ Triangle::Triangle(float x, float y, float z, float a, float height)
 		x + a, y + height, z
 	};
 
-	this->colors = new float[3]{
-		1.f, 1.f, 1.f
+	this->colors = new float[9]{
+		1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.f
 	};
 
 	this->normalization = new float[9]{
@@ -116,13 +116,13 @@ void Triangle::rotate(int x, int y, int z, float degree)
 
 		for (int i = 0; i < 9; i += 9) {
 			glm::mat4 toRotate(
-				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
-				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
-				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f),
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(0.f),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(0.f),
+				glm::f32(vertex[i + 2]), glm::f32(vertex[i + 5]), glm::f32(vertex[i + 8]), glm::f32(0.f),
 				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
 			);
 
-			glm::mat4 result = toRotate * mX;
+			glm::mat3 result = toRotate * mX;
 
 			vertex[i] = result[0][0];
 			vertex[i + 1] = result[1][0];
@@ -147,9 +147,9 @@ void Triangle::rotate(int x, int y, int z, float degree)
 
 		for (int i = 0; i < 12; i += 12) {
 			glm::mat4 toRotate(
-				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
-				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
-				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f),
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(0.f),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(0.f),
+				glm::f32(vertex[i + 2]), glm::f32(vertex[i + 5]), glm::f32(vertex[i + 8]), glm::f32(0.f),
 				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
 			);
 
@@ -177,9 +177,9 @@ void Triangle::rotate(int x, int y, int z, float degree)
 
 		for (int i = 0; i < 9; i += 9) {
 			glm::mat4 toRotate(
-				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
-				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
-				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f),
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(0.f),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(0.f),
+				glm::f32(vertex[i + 2]), glm::f32(vertex[i + 5]), glm::f32(vertex[i + 8]), glm::f32(0.f),
 				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
 			);
 
