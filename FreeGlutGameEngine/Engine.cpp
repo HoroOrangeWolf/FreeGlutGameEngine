@@ -8,9 +8,12 @@ GLfloat lightDif[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 GLfloat lightSpc[] = { 0.2f, 0.2f, 0.2f, 0.2f };
 GLfloat lightPos[] = { 0.f, 0.f, -5.0f, 1.0f };
 
+/**
+ * .
+ * \brief Renderowanie na ekranie
+ */
 void Engine::onDraw()
 {
-
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Switch to model-view matrix:
@@ -37,23 +40,48 @@ void Engine::onDraw()
 	glutSwapBuffers();
 }
 
-
+/**
+ * .
+ * \brief Ustawia klatki na sekunde
+ * \param val Ilosc klatek na sekunde
+ */
 void Engine::onTimer(int val)
 {
 	glutPostRedisplay();
 	glutTimerFunc(1000 / fps, &Engine::onTimer, 0);
 }
 
+/**
+ * .
+ * \brief Pozycja myszki
+ * \param x Pozycja X
+ * \param y Pozycja Y
+ */
 void Engine::mouse(int x, int y)
 {
 	//player.onMouseMove(x, y);
 }
 
+/**
+ * .
+ * \brief Obsluga klawiatury
+ * \param key Klawisz
+ * \param x 
+ * \param y
+ */
 void Engine::keyboard(unsigned char key, int x, int y)
 {
 	player.onKeyboardClick(key);
 }
 
+/**
+ * .
+ * \brief Konstruktor silnika
+ * \param title Tytul
+ * \param r Czerwony
+ * \param g Zielony
+ * \param b Niebieski
+ */
 Engine::Engine(char* title, float r, float g, float b)
 {
 	Engine::title = title;
@@ -62,16 +90,30 @@ Engine::Engine(char* title, float r, float g, float b)
 	Engine::b = b;
 }
 
+/**
+ * .
+ * \brief Ustawienie cieni
+ * \param shade Rodzaj cieniowania
+ */
 void Engine::setShading(int shade)
 {
 	shading = shade;
 }
 
+/**
+ * .
+ * \brief Ustawia tryby
+ * \param e Tryb
+ */
 void Engine::setModes(unsigned int e)
 {
 	Engine::modes = e;
 }
 
+/**
+ * .
+ * \brief Ustawienia silnika
+ */
 void Engine::setUp()
 {
 
@@ -135,22 +177,41 @@ void Engine::setUp()
 
 }
 
+/**
+ * .
+ * \brief Startuje silnik
+ */
 void Engine::run()
 {
 	glutMainLoop();
 }
 
+/**
+ * .
+ * \brief Ustawia rozmiar
+ * \param width Szerokosc
+ * \param height Wysokosc
+ */
 void Engine::setSize(unsigned int width, unsigned int height)
 {
 	Engine::width = width;
 	Engine::height = height;
 }
 
+/**
+ * .
+ * \brief Ustawia ilosc klatek na sekunde
+ * \param fps Ilosc klatek na sekunde
+ */
 void Engine::setFps(unsigned int fps)
 {
 	Engine::fps = fps;
 }
 
+/**
+ * .
+ * \brief Robi cos w stanie spoczynku XD
+ */
 void Engine::onIdle()
 {
 	static int last_time;

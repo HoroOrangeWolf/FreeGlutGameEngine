@@ -7,6 +7,13 @@
 #include "Engine.h"
 #include "../../../../Desktop/gl_textures/Targa.h"
 
+/**
+ * .
+ * \brief Funkcja main
+ * \param argc
+ * \param argv
+ * \return 
+ */
 int main(int argc, char* argv[]) {
 
 	glutInit(&argc, argv);

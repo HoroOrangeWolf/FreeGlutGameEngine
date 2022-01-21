@@ -2,6 +2,10 @@
 #include <iostream>
 #include "stb_image.h"
 
+/**
+ * .
+ * \brief Naklada bitmape na obiekcie
+ */
 void BitMapHandler::drawTexture()
 {
 	
@@ -13,12 +17,21 @@ void BitMapHandler::drawTexture()
 
 }
 
+/**
+ * .
+ * \brief Konstruktor
+ * \param name Sciezka do pliku
+ */
 BitMapHandler::BitMapHandler(std::string name)
 {
 	this->name = name;
 	text = stbi_load(name.c_str(), &width, &height, &nchan, 0);
 }
 
+/**
+ * .
+ * \brief Destruktor
+ */
 BitMapHandler::~BitMapHandler()
 {
 

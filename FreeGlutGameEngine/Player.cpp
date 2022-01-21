@@ -1,7 +1,13 @@
 #include "Player.h"
 #include <glm/ext/matrix_transform.hpp>
 #include <iostream>
+
 GLuint programID;
+/**
+ * .
+ * \brief Ustawienie klawiszy dla gracza
+ * \param key Klawisz
+ */
 void Player::onKeyboardClick(unsigned char key)
 {
 	switch (key)
@@ -35,6 +41,12 @@ void Player::onKeyboardClick(unsigned char key)
 	}
 }
 
+/**
+ * .
+ * \brief Poruszanie myszki
+ * \param x Pozycja X
+ * \param y Pozycja Y
+ */
 void Player::onMouseMove(int x, int y)
 {
 	int buffX = mouseX - x;
@@ -49,6 +61,13 @@ void Player::onMouseMove(int x, int y)
 		glRotatef(1.f, 0, y, 0);
 }
 
+/**
+ * .
+ * \brief Ustawienie startowych pozycji
+ * \param x Pozycja X
+ * \param y Pozycja Y
+ * \param z Pozycja Z
+ */
 void Player::setStartCords(float x, float y, float z)
 {
 	this->x = x;

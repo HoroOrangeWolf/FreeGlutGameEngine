@@ -1,5 +1,14 @@
 #include "Triangle.h"
 
+/**
+ * .
+ * \brief Konstruktor trojkata
+ * \param x Wspolrzedna X
+ * \param y Wspolrzedna Y
+ * \param z Wspolrzedna Z
+ * \param a Dlugosc podstawy
+ * \param height Wysokosc
+ */
 Triangle::Triangle(float x, float y, float z, float a, float height)
 {
 	this->x = x;
@@ -48,6 +57,10 @@ Triangle::Triangle(float x, float y, float z, float a, float height)
 	}
 }
 
+/**
+ * .
+ * \brief Rysowanie trojkata
+ */
 void Triangle::draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -66,6 +79,13 @@ void Triangle::draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 }
 
+/**
+ * .
+ * \brief Przesuwanie trokjata
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ */
 void Triangle::moveBy(float x, float y, float z)
 {
 	for (int i = 0; i < 9; i += 3) {
@@ -75,6 +95,14 @@ void Triangle::moveBy(float x, float y, float z)
 	}
 }
 
+/**
+ * .
+ * \brief Rotacja trojkata
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ * \param degree Stopien rotacji
+ */
 void Triangle::rotate(int x, int y, int z, float degree)
 {
 	degree = degree * angle;
@@ -185,6 +213,11 @@ void Triangle::rotate(int x, int y, int z, float degree)
 	}
 }
 
+/**
+ * .
+ * \brief Skalowanie
+ * \param k Wspolczynnik skali
+ */
 void Triangle::scale(float k)
 {
 	for (int i = 0; i < 9; i += 3) {
@@ -193,5 +226,3 @@ void Triangle::scale(float k)
 		vertex[i + 2] *= k;
 	}
 }
-
-

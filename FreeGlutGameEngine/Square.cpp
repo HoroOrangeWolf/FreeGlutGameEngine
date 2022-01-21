@@ -1,5 +1,13 @@
 #include "Square.h"
 
+/**
+ * .
+ * \brief Konstruktor kwadratu
+ * \param x Pozycja X
+ * \param y Pozycja Y
+ * \param z Pozycja Z
+ * \param width Szerokosc
+ */
 Square::Square(float x, float y, float z, float width)
 {
 	this->x = x;
@@ -50,6 +58,10 @@ Square::Square(float x, float y, float z, float width)
 
 }
 
+/**
+ * .
+ * \brief Rysowanie kwadratu
+ */
 void Square::draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -67,6 +79,13 @@ void Square::draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 }
 
+/**
+ * .
+ * \brief Przesuwanie kwadratu
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ */
 void Square::moveBy(float x, float y, float z)
 {
 	for (int i = 0; i < 12; i += 3) {
@@ -76,6 +95,14 @@ void Square::moveBy(float x, float y, float z)
 	}
 }
 
+/**
+ * .
+ * \brief Rotacja kwadratu
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ * \param degree Stopien rotacji
+ */
 void Square::rotate(int x, int y, int z, float degree)
 {
 	degree = degree * angle;
@@ -198,6 +225,11 @@ void Square::rotate(int x, int y, int z, float degree)
 	}
 }
 
+/**
+ * .
+ * \brief Skalowanie
+ * \param k Wspolczynnik skali
+ */
 void Square::scale(float k)
 {
 	for (int i = 0; i < 12; i += 3) {

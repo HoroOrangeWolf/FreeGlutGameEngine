@@ -10,6 +10,12 @@
 
 #define angle PI/180.f
 
+/**
+ * .
+ * \brief Konstruktor
+ * \param x Wspolrzedna X
+ * \param y Wspolrzedna Y
+ */
 RandomLetter::RandomLetter(float x, float y)
 {
 	this->vertex = new float[] {
@@ -71,6 +77,10 @@ RandomLetter::RandomLetter(float x, float y)
 
 }
 
+/**
+ * .
+ * \brief Rysuje litere
+ */
 void RandomLetter::draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -89,7 +99,13 @@ void RandomLetter::draw()
 	glDisableClientState(GL_COLOR_ARRAY);
 }
 
-
+/**
+ * .
+ * \brief Przesuniecie litery
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ */
 void RandomLetter::moveBy(float x, float y, float z)
 {
 	for (int i = 0; i < 24; i += 3) {
@@ -99,6 +115,14 @@ void RandomLetter::moveBy(float x, float y, float z)
 	}
 }
 
+/**
+ * .
+ * \brief Rotacja litery
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ * \param degree Stopien rotacji
+ */
 void RandomLetter::rotate(int x, int y, int z, float degree)
 {
 	degree = degree * angle;
@@ -221,6 +245,11 @@ void RandomLetter::rotate(int x, int y, int z, float degree)
 	}
 }
 
+/**
+ * .
+ * \brief Skalowanie
+ * \param k Wspolczynnik skali
+ */
 void RandomLetter::scale(float k)
 {
 	for (int i = 0; i < 48; i += 3) {

@@ -1,6 +1,14 @@
 ﻿#include "Cube.h"
 #include "stb_image.h"
 
+
+/**
+ * .
+ * \brief Oblicza wektor normalny
+ * \param p1 Wektor 1
+ * \param p2 Wektor 2
+ * \param p3 Wektor wyjsciowy
+ */
 void cross_product(float *p1, float *p2, float *p3) {
 
 	p3[0] = p1[1] * p2[2] - p1[2] * p2[1];
@@ -8,7 +16,10 @@ void cross_product(float *p1, float *p2, float *p3) {
     p3[2] = p1[0] * p2[1] - p1[1] * p2[0];
 }
 
-
+/**
+ * .
+ * \brief Rysowanie kostki
+ */
 void Cube::draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -35,6 +46,13 @@ void Cube::draw()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
+/**
+ * .
+ * \brief Przesuwanie kostki
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ */
 void Cube::moveBy(float x, float y, float z)
 {
 	for (int i = 0; i < 72; i += 3) {
@@ -44,6 +62,14 @@ void Cube::moveBy(float x, float y, float z)
 	}
 }
 
+/**
+ * .
+ * \brief Rotacja kostki
+ * \param x Przesuniecie wzgledem wspolrzednych X
+ * \param y Przesuniecie wzgledem wspolrzednych Y
+ * \param z Przesuniecie wzgledem wspolrzednych Z
+ * \param degree Stopien rotacji
+ */
 void Cube::rotate(int x, int y, int z, float degree)
 {
 	degree = degree * angle;
@@ -166,6 +192,11 @@ void Cube::rotate(int x, int y, int z, float degree)
 	}
 }
 
+/**
+ * .
+ * \brief Skalowanie
+ * \param k Wspolczynnik skali
+ */
 void Cube::scale(float k)
 {
 	for (int i = 0; i < 72; i += 3) {
@@ -175,6 +206,15 @@ void Cube::scale(float k)
 	}
 }
 
+/**
+ * .
+ * \brief Konstruktor kostki
+ * \param x Pozycja X
+ * \param y Pozycja Y
+ * \param z Pozycja Z
+ * \param width Szerokosc
+ * \param name Sciezka do pliku
+ */
 Cube::Cube(float x, float y, float z, float width, std::string name):BitMapHandler(name)
 {
 	this->x = x;
@@ -255,6 +295,10 @@ Cube::Cube(float x, float y, float z, float width, std::string name):BitMapHandl
 	};
 }
 
+/**
+ * .
+ * \brief Destruktor
+ */
 Cube::~Cube()
 {
 	if (vertex != NULL)
