@@ -54,17 +54,17 @@ void Engine::keyboard(unsigned char key, int x, int y)
 	std::cout << key;
 	switch (key) {
 	case '1':
-		square.rotate(1, 0, 0, 1.f);
+		square.rotate(1, 0, 0, 3.f);
 		lightPos[0] -= 0.1f;
 		glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
 		break;
 	case '2':
-		square.rotate(0, 1, 0, 1.f);
+		square.rotate(0, 1, 0, 3.f);
 		//lightPos[0] += 0.1f;
 		glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
 		break;
 	case '3':
-		square.rotate(0, 0, 1, 1.f);
+		square.rotate(0, 0, 1, 3.f);
 		break;
 	case '4':
 		lightPos[0] -= 0.1f;
@@ -85,8 +85,6 @@ Engine::Engine(char* title, float r, float g, float b)
 	Engine::r = r;
 	Engine::g = g;
 	Engine::b = b;
-
-
 }
 
 void Engine::setShading(int shade)
@@ -114,8 +112,9 @@ void Engine::setUp()
 	// Lighting ON:
 	glEnable(GL_LIGHTING);
 
+	glEnable(GL_TEXTURE_2D);
 
-	
+
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightAmb);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif);
 
@@ -183,7 +182,7 @@ unsigned int Engine::height = 600;
 unsigned int Engine::modes = GLUT_RGB;
 unsigned int Engine::fps = 60;
 
-Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f);
+Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f, "jozga.png");
 Square Engine::sq1 = Square(-2.5f, 0.f, 0.f, 1.f);
 Triangle Engine::tr1 = Triangle(0.f, 0.f, 0.f, 1.f, 1.f);
 RandomLetter Engine::random = RandomLetter(-2.f, 2.f);
