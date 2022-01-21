@@ -166,6 +166,15 @@ void Cube::rotate(int x, int y, int z, float degree)
 	}
 }
 
+void Cube::scale(float k)
+{
+	for (int i = 0; i < 72; i += 3) {
+		vertex[i] *= k;
+		vertex[i + 1] *= k;
+		vertex[i + 2] *= k;
+	}
+}
+
 Cube::Cube(float x, float y, float z, float width, std::string name):BitMapHandler(name)
 {
 	this->x = x;

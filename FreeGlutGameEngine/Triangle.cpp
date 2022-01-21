@@ -32,6 +32,20 @@ Triangle::Triangle(float x, float y, float z, float a, float height)
 		0, 1, 2,
 	};
 
+
+
+	for (int i = 0; i < 9; i += 9) {
+		float b[] = { vertex[i + 6] - vertex[i + 3], vertex[i + 7] - vertex[i + 4], vertex[i + 8] - vertex[i + 5] };
+		float a[] = { vertex[i] - vertex[i + 3], vertex[i + 1] - vertex[i + 4], vertex[i + 2] - vertex[i + 5] };
+		float p[]{ 0.f, 0.f, 0.f };
+		crossProduct(a, b, p);
+
+		for (int u = i; u < i + 9; u += 3) {
+			normalization[u] = p[0];
+			normalization[u + 1] = p[1];
+			normalization[u + 2] = p[2];
+		}
+	}
 }
 
 void Triangle::draw()
@@ -51,3 +65,133 @@ void Triangle::draw()
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 }
+
+void Triangle::moveBy(float x, float y, float z)
+{
+	for (int i = 0; i < 9; i += 3) {
+		vertex[i] += x;
+		vertex[i + 1] += y;
+		vertex[i + 2] += z;
+	}
+}
+
+void Triangle::rotate(int x, int y, int z, float degree)
+{
+	degree = degree * angle;
+
+	if (x == 1) {
+		glm::mat4 mX(glm::f32(1.f), glm::f32(0.f), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(cos(degree)), glm::f32(-sin(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(sin(degree)), glm::f32(cos(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(0.f), glm::f32(1.f)
+		);
+
+		for (int i = 0; i < 9; i += 9) {
+			glm::mat4 toRotate(
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
+			);
+
+			glm::mat4 result = toRotate * mX;
+
+			vertex[i] = result[0][0];
+			vertex[i + 1] = result[1][0];
+			vertex[i + 2] = result[2][0];
+
+			vertex[i + 3] = result[0][1];
+			vertex[i + 4] = result[1][1];
+			vertex[i + 5] = result[2][1];
+
+			vertex[i + 6] = result[0][2];
+			vertex[i + 7] = result[1][2];
+			vertex[i + 8] = result[2][2];
+		}
+
+	}
+	else if (y == 1) {
+		glm::mat4 mX(glm::f32(cos(degree)), glm::f32(0.f), glm::f32(-sin(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(1.f), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(sin(degree)), glm::f32(0.f), glm::f32(cos(degree)), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(0.f), glm::f32(1.f)
+		);
+
+		for (int i = 0; i < 12; i += 12) {
+			glm::mat4 toRotate(
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
+			);
+
+			glm::mat4 result = toRotate * mX;
+
+			vertex[i] = result[0][0];
+			vertex[i + 1] = result[1][0];
+			vertex[i + 2] = result[2][0];
+
+			vertex[i + 3] = result[0][1];
+			vertex[i + 4] = result[1][1];
+			vertex[i + 5] = result[2][1];
+
+			vertex[i + 6] = result[0][2];
+			vertex[i + 7] = result[1][2];
+			vertex[i + 8] = result[2][2];
+		}
+	}
+	else if (z == 1) {
+		glm::mat4 mX(glm::f32(cos(degree)), glm::f32(-sin(degree)), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(sin(degree)), glm::f32(cos(degree)), glm::f32(0.f), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(1.f), glm::f32(0.f),
+			glm::f32(0.f), glm::f32(0.f), glm::f32(0.f), glm::f32(1.f)
+		);
+
+		for (int i = 0; i < 9; i += 9) {
+			glm::mat4 toRotate(
+				glm::f32(vertex[i]), glm::f32(vertex[i + 3]), glm::f32(vertex[i + 6]), glm::f32(vertex[i + 9]),
+				glm::f32(vertex[i + 1]), glm::f32(vertex[i + 4]), glm::f32(vertex[i + 7]), glm::f32(vertex[i + 10]),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f),
+				glm::f32(1.f), glm::f32(1.f), glm::f32(1.f), glm::f32(1.f)
+			);
+
+			glm::mat4 result = toRotate * mX;
+
+			vertex[i] = result[0][0];
+			vertex[i + 1] = result[1][0];
+			vertex[i + 2] = result[2][0];
+
+			vertex[i + 3] = result[0][1];
+			vertex[i + 4] = result[1][1];
+			vertex[i + 5] = result[2][1];
+
+			vertex[i + 6] = result[0][2];
+			vertex[i + 7] = result[1][2];
+			vertex[i + 8] = result[2][2];
+		}
+	}
+
+	for (int i = 0; i < 9; i += 9) {
+		float b[] = { vertex[i + 6] - vertex[i + 3], vertex[i + 7] - vertex[i + 4], vertex[i + 8] - vertex[i + 5] };
+		float a[] = { vertex[i] - vertex[i + 3], vertex[i + 1] - vertex[i + 4], vertex[i + 2] - vertex[i + 5] };
+		float p[]{ 0.f, 0.f, 0.f };
+		crossProduct(a, b, p);
+
+		for (int u = i; u < i + 9; u += 3) {
+			normalization[u] = p[0];
+			normalization[u + 1] = p[1];
+			normalization[u + 2] = p[2];
+		}
+	}
+}
+
+void Triangle::scale(float k)
+{
+	for (int i = 0; i < 9; i += 3) {
+		vertex[i] *= k;
+		vertex[i + 1] *= k;
+		vertex[i + 2] *= k;
+	}
+}
+
+

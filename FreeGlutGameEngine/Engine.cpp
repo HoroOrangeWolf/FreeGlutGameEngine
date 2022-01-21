@@ -1,4 +1,4 @@
-#include "Engine.h"
+﻿#include "Engine.h"
 #include <iostream>
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
@@ -32,7 +32,8 @@ void Engine::onDraw()
 
 	square.draw();
 	sq1.draw();
-	//sq1.draw();
+	tr1.draw();
+	random.draw();
 	glutSwapBuffers();
 }
 
@@ -50,33 +51,7 @@ void Engine::mouse(int x, int y)
 
 void Engine::keyboard(unsigned char key, int x, int y)
 {
-	//player.onKeyboardClick(key);
-	std::cout << key;
-	switch (key) {
-	case '1':
-		square.rotate(1, 0, 0, 3.f);
-		lightPos[0] -= 0.1f;
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
-		break;
-	case '2':
-		square.rotate(0, 1, 0, 3.f);
-		//lightPos[0] += 0.1f;
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpc);
-		break;
-	case '3':
-		square.rotate(0, 0, 1, 3.f);
-		break;
-	case '4':
-		lightPos[0] -= 0.1f;
-		break;
-	case '5':
-		lightPos[0] += 0.1f;
-		break;
-	}
-	//glRotatef(1.f, 0, 0, 1);
-	//glRotatef(1.f, 0, 0, 1);
-	//glRotatef(1.f, 0, 1, 0);
-	//glRotatef(1.f, 1, 0, 0);
+	player.onKeyboardClick(key);
 }
 
 Engine::Engine(char* title, float r, float g, float b)
@@ -148,6 +123,9 @@ void Engine::setUp()
 
 	glutKeyboardFunc(&Engine::keyboard);
 	glutPassiveMotionFunc(&Engine::mouse);
+	glutIdleFunc(&Engine::onIdle);
+
+	random.rotate(0, 1, 0, 30.f);
 
 	glutDisplayFunc(&Engine::onDraw);
 
@@ -173,6 +151,38 @@ void Engine::setFps(unsigned int fps)
 	Engine::fps = fps;
 }
 
+void Engine::onIdle()
+{
+	static int last_time;
+	static GLfloat number = 0.f;
+	static GLfloat nums = 4.f;
+	int now_time = glutGet(GLUT_ELAPSED_TIME);
+
+	if (last_time > 0) {
+		float times = (now_time - last_time) / 1000.0f;
+		square.rotate(1, 0, 0, 15.f* times);
+		square.rotate(0, 1, 0, 25.f* times);
+		square.rotate(0, 0, 1, 19.f* times);
+
+
+		
+		number += nums * times;
+
+		lightPos[0] = number;
+
+		if (number >= 20.f)
+		{
+			nums = -4.f;
+		}
+		else if (number <= -20.f)
+		{
+			nums = 4.f;
+		}
+	}
+	last_time = now_time;
+	glutPostRedisplay();
+}
+
 float Engine::r = 0.0f;
 float Engine::g = 0.0f;
 float Engine::b = 0.0f;
@@ -184,8 +194,8 @@ unsigned int Engine::fps = 60;
 
 Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f, "jozga.png");
 Square Engine::sq1 = Square(-2.5f, 0.f, 0.f, 1.f);
-Triangle Engine::tr1 = Triangle(0.f, 0.f, 0.f, 1.f, 1.f);
-RandomLetter Engine::random = RandomLetter(-2.f, 2.f);
+Triangle Engine::tr1 = Triangle(2.f, 0.f, 0.f, 1.f, 1.f);
+RandomLetter Engine::random = RandomLetter(-8.f, 2.f);
 Player Engine::player = Player();
 
 int Engine::shading = GL_SMOOTH;

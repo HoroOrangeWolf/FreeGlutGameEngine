@@ -31,5 +31,6 @@ public:
 	void draw();
 	void moveBy(float x, float y, float z) override;
 	void rotate(int x, int y, int z, float degree) override;
+	void scale(float k) override;
 };
 
