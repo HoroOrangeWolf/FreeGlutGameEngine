@@ -5,8 +5,6 @@
 #include "stb_image.h"
 #include <gl/freeglut.h>
 #include "Engine.h"
-#include "../../../../Desktop/gl_textures/Targa.h"
-
 /**
  * .
  * \brief Funkcja main

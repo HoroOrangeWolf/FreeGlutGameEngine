@@ -2,6 +2,7 @@
 #include <iostream>
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
+#include "ludzik.c"
 
 GLfloat lightAmb[] = { 0.2f, 0.2f, 0.2f, 1.0f };
 GLfloat lightDif[] = { 0.8f, 0.8f, 0.8f, 1.0f };
@@ -32,11 +33,31 @@ void Engine::onDraw()
 	glMaterialfv(GL_FRONT, GL_SPECULAR, lightSpc);
 	glMateriali(GL_FRONT, GL_SHININESS, 8);
 
-
+	
 	square.draw();
 	sq1.draw();
 	tr1.draw();
 	random.draw();
+	struct Anim8orObject* obj = &object_object01;
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	for (int m = 0; m < obj->nMeshes; m++) {
+		// Kolor ka�dego mesha jest (dla uproszczenia) kolorem
+		// pierwszego z materia��w dla niego zdefiniowanych:
+		glColor4fv(obj->meshes[m]->materials[0].diffuse);
+		// Tabela z punktami:
+		glVertexPointer(3, GL_FLOAT, 0, obj->meshes[m]->coordinates);
+		// Tabela z normalnymi:
+		glNormalPointer(GL_FLOAT, 0, obj->meshes[m]->normals);
+		// Tabela ze wsp�rz�dnymi tekstur:
+		glTexCoordPointer(2, GL_FLOAT, 0, obj->meshes[m]->texcoords);
+		// Narysowanie kszta�tu korzystaj�c z tabeli indeks�w:
+		glDrawElements(GL_TRIANGLES, obj->meshes[m]->nIndices, GL_UNSIGNED_INT, obj->meshes[m]->indices);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glutSwapBuffers();
 }
 
@@ -270,7 +291,7 @@ unsigned int Engine::height = 600;
 unsigned int Engine::modes = GLUT_RGB;
 unsigned int Engine::fps = 60;
 
-Cube Engine::square = Cube(-0.5f, -0.5f, -0.5f, 1.f, "jozga.png");
+Cube Engine::square = Cube(1.f, -0.5f, -0.5f, 1.f, "jozga.png");
 Square Engine::sq1 = Square(-2.5f, 0.f, 0.f, 1.f);
 Triangle Engine::tr1 = Triangle(2.f, 0.f, 0.f, 1.f, 1.f);
 RandomLetter Engine::random = RandomLetter(-8.f, 2.f);
